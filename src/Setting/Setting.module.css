@@ -1,0 +1,29 @@
+.container2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+margin-top: 20px;
+    border: solid;
+    background-color: #008080;
+    padding: 50px ;
+    width: 70%;
+}
+.value{
+    font-size: 40px;
+    color: white;
+}
+.input{
+    font-size: 20px;
+    color: #008B8B;
+    border: solid black;
+}
+.set{
+    background-color: #40E0D0;
+    font-size: 30px;
+    margin-top: 10px;
+    border-radius: 10%;
+}
+.error{
+    color: red;
+}
