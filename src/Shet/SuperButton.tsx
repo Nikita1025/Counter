@@ -1,22 +1,20 @@
-
 import React from 'react';
-import Button from '@mui/material/Button';
-import s from './Button.module.css'
+import {Button} from "@mui/material";
 
-type ButtonType ={
-    onClickHandlerInc: ()=>void
-    onClickHandlerReset: ()=>void
+type SuperButtonType = {
+    name: string
+    callback: () => void
+    disable: boolean
+    classNameButton: string
 
 }
 
-export const ButtonOne = (props:ButtonType) => {
-
-
+export const SuperButton = (props: SuperButtonType) => {
     return (
-        <div className={s.butt}>
-            <Button variant={'contained'} onClick={props.onClickHandlerInc}>inc</Button>
-            <Button  variant={'contained'}  onClick={props.onClickHandlerReset}>reset</Button>
+        <div>
 
-        </div>
+            <Button style={{width: "5px", background:"#20B2AA"}} variant="contained" onClick={props.callback} disabled={props.disable}>
+                {props.name}
+            </Button></div>
     )
 }

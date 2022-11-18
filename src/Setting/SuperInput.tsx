@@ -1,20 +1,21 @@
 import React, {ChangeEvent} from 'react';
-import s from './Setting.module.css'
-type SuperInputType={
+import s from './SuperInput.module.css'
+
+
+type SuperInputType = {
     title: string
     value: number
-    onChange:(e: ChangeEvent<HTMLInputElement>)=>void
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void
     className: string
 }
 export const SuperInput = (props: SuperInputType) => {
     return (
-        <div>
+        <div className={s.box}>
             <span className={s.input}>{props.title}</span>
-            <input
-                value={props.value}
-                onChange={props.onChange}
-                type='number'
-            />
+            <input onChange={props.onChange}
+                   className={props.className}
+                   value={props.value}
+                   type="number"/>
         </div>
     );
 };

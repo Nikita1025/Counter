@@ -1,26 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect} from 'react'
+import {Setting} from "./Setting/Setting";
+import {Count} from "./Shet/Count";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "./Store/store";
+import {errorAC, InitialStateType, onChangeHandlerMaxAC, onChangeHandlerMinAC} from "./Store/countReducer";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const count = useSelector<AppRootStateType,InitialStateType >(state => state.count)
+
+    const dispatch= useDispatch()
+    useEffect(() => {
+        let valueAsString = localStorage.getItem('max')
+        let valueAsStringTwo = localStorage.getItem('min')
+        if (valueAsString) {
+            let newValue = JSON.parse(valueAsString)
+            //setMaxvalue(newValue)
+            dispatch(onChangeHandlerMaxAC(newValue))
+        }
+        if (valueAsStringTwo) {
+            let newValueTwo = JSON.parse(valueAsStringTwo)
+            //setMinvalue(newValueTwo)
+            dispatch(onChangeHandlerMinAC(newValueTwo))
+
+        }
+    }, [])
+    useEffect(()=>{
+        localStorage.setItem('max', JSON.stringify(count.maxValue))
+        localStorage.setItem('min', JSON.stringify(count.minValue))
+    }, [count.maxValue, count.minValue])
+    useEffect(()=>{
+        if ( count.minValue < 0 ||  count.maxValue <= 0 || count.minValue === count.maxValue){
+           // setError('The value is not correct')
+            dispatch(errorAC('The value is not correct'))
+        }else{
+           // setError('')
+            dispatch(errorAC(''))
+        }
+    }, [count.minValue, count.maxValue])
+
+
+    return (
+       <div>
+            <Setting/>
+           <Count/>
+       </div>
+
+    );
 }
 
 export default App;

@@ -1,41 +1,48 @@
-import React, {ChangeEvent, Dispatch, SetStateAction} from 'react';
+import React, {ChangeEvent} from 'react';
 import {SuperInput} from "./SuperInput";
 import {SuperButton} from "../Shet/SuperButton";
 import s from './Setting.module.css'
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "../Store/store";
+import {
+    callbackAC,
+    InitialStateType,
+    onChangeHandlerMaxAC,
+    onChangeHandlerMinAC,
+    onClickIncAC
+} from "../Store/countReducer";
 
-type SettingType = {
-    maxValue: number
-    minValue: number
-    setCount: Dispatch<SetStateAction<number>>
-    setMaxvalue: Dispatch<SetStateAction<number>>
-    setMinvalue: Dispatch<SetStateAction<number>>
-error: string
-}
+export const Setting = () => {
+    const{minValue, maxValue, error} = useSelector<AppRootStateType,InitialStateType >(state => state.count)
 
-export const Setting = (props: SettingType) => {
-    const onChangeHanlerMax = (e: ChangeEvent<HTMLInputElement>) => {
-        props.setMaxvalue(+e.currentTarget.value)
+    const dispatch= useDispatch()
+    const onChangeHandlerMax = (e: ChangeEvent<HTMLInputElement>) => {
+        dispatch(onChangeHandlerMaxAC(+e.currentTarget.value))
     }
-    const onChangeHanlerMin = (e: ChangeEvent<HTMLInputElement>) => {
-        props.setMinvalue(+e.currentTarget.value)
+    const onChangeHandlerMin = (e: ChangeEvent<HTMLInputElement>) => {
+        dispatch(onChangeHandlerMinAC(+e.currentTarget.value))
     }
     const callback = () => {
-        props.setCount(props.minValue)
+        dispatch(callbackAC(minValue))
+        dispatch(onClickIncAC(minValue))
     }
-const disableSet = props.minValue  < 0 || props.maxValue <= 0
+
+    const disableSet = minValue < 0 || maxValue <= 0
     return (<div className={s.container2}>
-            <div className={s.input}>
+            <div >
                 <SuperInput
-                    title={"Max Value:"}
-                    value={props.maxValue}
-                    onChange={onChangeHanlerMax}
-                    className = {props.error ? s.error : s.input}
+                    title={"Max Value: "}
+                    value={maxValue}
+                    onChange={onChangeHandlerMax}
+                    className={error ? s.error : s.input}
                 />
+            </div>
+                <div>
                 <SuperInput
-                    title={"Min Value:"}
-                    value={props.minValue}
-                    onChange={onChangeHanlerMin}
-                    className = {props.error ? s.error :''}
+                    title={"Min Value: "}
+                    value={minValue}
+                    onChange={onChangeHandlerMin}
+                    className={error ? s.error : s.input}
                 />
             </div>
             <div>
