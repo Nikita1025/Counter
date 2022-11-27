@@ -6,18 +6,23 @@ import {AppRootStateType} from "../Store/store";
 import {InitialStateType, onClickIncAC, onClickRestAC} from "../Store/countReducer";
 
 
-export const Count =() => {
-    const state = useSelector<AppRootStateType,InitialStateType >(state => state.count)
-    const dispatch= useDispatch()
-    const StyleError = state.count>= state.maxValue ? s.error : s.span
-    const SpanCount = state.error ? state.error : state.count
-    const disableInc = state.count >= state.maxValue
-    const disableRest = state.count <= state.minValue
+export const Count = () => {
+    const {
+        count,
+        maxValue,
+        minValue,
+        error
+    } = useSelector<AppRootStateType, InitialStateType>(state => state.count)
+    const dispatch = useDispatch()
+    const StyleError = count >= maxValue ? s.error : s.span
+    const SpanCount = error ? error : count
+    const disableInc = count >= maxValue
+    const disableRest = count <= minValue
     const onClickInc = () => {
-        dispatch(onClickIncAC(state.count + 1))
+        dispatch(onClickIncAC(count + 1))
     }
     const onClickReset = () => {
-        dispatch(onClickRestAC(state.minValue))
+        dispatch(onClickRestAC(minValue))
     }
 
     return (

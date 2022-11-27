@@ -15,12 +15,10 @@ function App() {
         let valueAsStringTwo = localStorage.getItem('min')
         if (valueAsString) {
             let newValue = JSON.parse(valueAsString)
-            //setMaxvalue(newValue)
             dispatch(onChangeHandlerMaxAC(newValue))
         }
         if (valueAsStringTwo) {
             let newValueTwo = JSON.parse(valueAsStringTwo)
-            //setMinvalue(newValueTwo)
             dispatch(onChangeHandlerMinAC(newValueTwo))
 
         }
@@ -31,10 +29,8 @@ function App() {
     }, [count.maxValue, count.minValue])
     useEffect(()=>{
         if ( count.minValue < 0 ||  count.maxValue <= 0 || count.minValue === count.maxValue){
-           // setError('The value is not correct')
             dispatch(errorAC('The value is not correct'))
         }else{
-           // setError('')
             dispatch(errorAC(''))
         }
     }, [count.minValue, count.maxValue])
